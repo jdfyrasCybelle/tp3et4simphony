@@ -4,14 +4,14 @@ RUN apt-get update && apt-get install -y \
     git \
     unzip \
     libzip-dev \
-    && docker-php-ext-install zip pdo pdo_mysql
+    default-mysql-client
+
+# Install PHP extensions
+RUN docker-php-ext-install zip pdo pdo_mysql opcache
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /var/www/html
-
-# Installer les extensions PHP nécessaires pour Symfony 7
-RUN docker-php-ext-install opcache
 
 # Configurer PHP pour Symfony
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
